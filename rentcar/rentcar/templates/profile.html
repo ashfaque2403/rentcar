@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center text-white ">Your Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Name:</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ profile.name }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Phone Number:</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ profile.phone_number }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Address:</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ profile.address }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Location:</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ profile.location }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Proof:</strong>
+                </div>
+                <div class="col-md-8">
+                    {% if profile.proof %}
+                        <a href="{{ profile.proof.url }}" target="_blank" class="btn btn-outline-success btn-sm">
+                            View Proof
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Not uploaded</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">
+                Edit Profile
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

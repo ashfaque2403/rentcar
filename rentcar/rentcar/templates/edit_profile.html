@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" value="{{ profile.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Phone Number</label>
+            <input type="text" name="phone_number" class="form-control" value="{{ profile.phone_number }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <textarea name="address" class="form-control" required>{{ profile.address }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="location" class="form-control" value="{{ profile.location }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="proof" class="form-label">Proof (e.g., Aadhaar)</label>
+            <input type="file" name="proof" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<br>
+
+<div class="container">
+    <form method="post" action="{% url 'start_order' %}">  
+        {% include "messages.html" %}             
+        {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-10 col-lg-7 col-xl-10 m-lr-auto m-b-50">
+                    <div class="bor10 p-lr-40 p-t-30  m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                        <h4 class="mtext-109 cl2 p-b-30">
+                            Order Summary
+                        </h4>
+                        {% for cart_item in cart_items %}
+                        <div class="flex-w flex-t p-t-27 p-b-33">
+                            
+                            
+
+                            <div class="size-209 p-t-1">
+                                <div class="media-body">
+                                    <span class="stext-110 cl2">
+                                        {{ cart_item.car.name }}
+                                    </span>
+                                    
+                                    <div class="small text-muted">Price: ${{ cart_item.car.price }} | Qty: {{ cart_item.quantity }} | Subtotal: ${{ cart_item.total_price }}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %}
+                       
+                        <a href="{% url "cart_list" %}"
+                        class="btn btn-primary">
+                                Back to cart
+                            
+                        </a>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+<br>
+
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label for="start_date">Start Date *</label>
+                    <input type="date" class="form-control" name="start_date" id="start_date" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="end_date">End Date *</label>
+                    <input type="date" class="form-control" name="end_date" id="end_date" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label for="aadhar_number">Aadhar Number *</label>
+                    <input type="text" class="form-control" name="aadhar_number" id="aadhar_number" required>
+                    <small class="text-muted">Enter your 12-digit Aadhar number</small>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-14 col-lg-5 col-xl- m-lr-auto m-b-50">
+                    <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                        <h4 class="mtext-109 cl2 p-b-30">
+                            Billing address <a href="{% url "address" %}"
+                            class="btn btn-primary">
+                                    Add/Change Address
+                                
+                            </a>
+                        </h4>
+                        <div class="flex-w flex-t p-t-27 p-b-33">
+                        
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name">First name *</label>
+                                    <input value="{{form_data.first_name}}" name="first_name" type="text" class="form-control" id="first_name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name">Last name *</label>
+                                    <input value="{{form_data.last_name}}" name="last_name" type="text" class="form-control" id="last_name" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="email">Email Address *</label>
+                                    <input value="{{form_data.email}}" type="email" class="form-control" name="email" id="email"  required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="address">Address *</label>
+                                    <input value="{{form_data.address}}" type="text" class="form-control" name="address" id="address" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="zip">Zip *</label>
+                                    <input value="{{form_data.zipcode}}" type="text" class="form-control" name="zipcode" id="zip" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            
+            
+            <div class="row">
+                <div class="col-sm-10 col-lg-5 col-xl-10 m-lr-auto m-b-50">
+                    <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                        <h4 class="mtext-109 cl2 p-b-30">
+                            Payment
+                        </h4>
+
+                        <div class="flex-w flex-t p-t-27 p-b-33">
+                           
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-name">Name on card</label>
+                                    <input type="text" class="form-control" id="cc-name" placeholder="" required> <small class="text-muted">Full name as displayed on card</small>
+                                    <div class="invalid-feedback"> Name on card is required </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-number">Credit card number</label>
+                                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                    <div class="invalid-feedback"> Credit card number is required </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-expiration">Expiration</label>
+                                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                                    <div class="invalid-feedback"> Expiration date required </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="cc-expiration">CVV</label>
+                                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                    <div class="invalid-feedback"> Security code required </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <button type="submit" class="btn btn-primary">
+                                Payment Now
+                            </button>
+                        </a>
+                        
+                    </div>
+                </div>
+
+            </div>
+    </form>         
+
+</div>
+  
+
+    {% endblock content %}

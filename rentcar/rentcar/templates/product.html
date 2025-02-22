@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+{% include "messages.html" %}
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="{% url 'index' %}" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+        <span class="stext-109 cl4">Add Car/Locations</span>
+    </div>
+</div>
+<br>
+<br>
+<!-- Add Product -->
+<div class="bg0 m-t-23 p-b-140">
+	<div class="container">
+		<div class="flex-w flex-sb-m p-b-52">
+			
+
+			<!-- Filter -->
+			<div class="dis-none panel-filter w-full p-t-10">
+				<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<div class="mtext-102 cl2 p-b-15">
+									Add Product
+								</div>
+								<form method="post" class="mt-3 review-form-box" id="formRegister" enctype="multipart/form-data">
+									{% csrf_token %}
+									<div class="row g-3">
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="text" name="car_name" class="form-control" id="car_name" placeholder="Car Name" required>
+												<label for="car_name">Car Name</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<select name="car_type" class="form-control" id="car_type" required>
+													<option value="" disabled selected>Select Car Type</option>
+													<option value="sedan">Sedan</option>
+													<option value="suv">SUV</option>
+													<option value="truck">Truck</option>
+													<option value="hatchback">Hatchback</option>
+													<option value="convertible">Convertible</option>
+												</select>
+												<label for="car_type">Car Type</label>
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="number" name="price" step="0.01" class="form-control" id="price" placeholder="Price" required>
+												<label for="price">Price</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="number" name="kilometers_drove" class="form-control" id="kilometers_drove" placeholder="Kilometers Drove" required>
+												<label for="kilometers_drove">Kilometers Drove</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="number" name="seats" class="form-control" id="seats" placeholder="Seats" required>
+												<label for="seats">Seats</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="number" name="stock_quantity" class="form-control" id="stock_quantity" placeholder="Stock Quantity" required>
+												<label for="stock_quantity">Stock Quantity</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<input type="file" name="car_image" class="form-control" id="car_image">
+												<label for="car_image">Car Image</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-floating">
+												<select name="location" class="form-control" id="location" required>
+													<option value="" disabled selected>Select Location</option>
+													{% for loc in locations %}
+														<option value="{{ loc.id }}">{{ loc.name }}</option>
+													{% endfor %}
+												</select>
+												
+												<label for="location">Location</label>
+											</div>
+										</div>
+										<div class="col-12">
+											<button class="btn btn-primary w-100 py-3" type="submit">Add Product</button>
+										</div>
+									</div>
+								</form>
+								
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<div class="mtext-102 cl2 p-b-15">
+									Add Location
+								</div>
+								<form method="post" class="mt-3 review-form-box" id="formLogin">
+									{% csrf_token %}
+									<div class="col-md-12 mb-4">
+										<div class="form-floating">
+											<input type="text" name="loca_name" class="form-control" id="car_image">
+											<label for="car_image">Add Location</label>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary w-100 py-3">Add</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Product Grid -->
+		<div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-0 gx-5 align-items-end">
+                    <div class="col-lg-6">
+                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                            <h1 class="mb-3">Cars</h1>
+                            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Featured</a>
+                            </li>
+                            
+                          
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="row g-4">
+                          
+                            {% for car in products %}
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="property-item rounded overflow-hidden">
+                                    <div class="position-relative overflow-hidden">
+                                        <a href=""><img class="img-fluid" src="{{ car.car_image.url }}" alt=""></a>
+                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Rent</div>
+                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ car.car_type }}</div>
+                                    </div>
+                                    <div class="p-4 pb-0">
+                                        <h5 class="text-primary mb-3">${{ car.price }} </h5>
+                                        <a class="d-block h5 mb-2" href="">{{ car.car_name }} </a>
+                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ car.location }}</p>
+                                    </div>
+                                    <div class="d-flex border-top">
+                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>Km{{ car.kilometers_drove }}</small>
+                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-stool text-primary me-2"></i>Seat - {{ car.seats }}</small>
+                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i><a href="{% url "add" car.id %}">Add to cart</a></small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                                <p>No cars found matching your search.</p>
+                            {% endfor %}
+                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                                <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane fade show p-0">
+                        <div class="row g-4">
+                            {% for car in lbased %}
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="property-item rounded overflow-hidden">
+                                    <div class="position-relative overflow-hidden">
+                                        <a href=""><img class="img-fluid" src="{{ car.car_image.url }}" alt=""></a>
+                                        <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">For Sell</div>
+                                        <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">{{ car.car_type }}</div>
+                                    </div>
+                                    <div class="p-4 pb-0">
+                                        <h5 class="text-primary mb-3">${{ car.price }} </h5>
+                                        <a class="d-block h5 mb-2" href="">{{ car.car_name }} </a>
+                                        <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ car.location }}</p>
+                                    </div>
+                                    <div class="d-flex border-top">
+                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>Km{{ car.kilometers_drove }}</small>
+                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-stool text-primary me-2"></i>Seat - {{ car.seats }}</small>
+                                        <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i><a href="{% url "add" car.id %}">Add to cart</a></small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                                <p>No cars found matching your search. - Please complete your profile to enjoy full features.</p>
+                                {% if profile_incomplete %}
+    
+            
+                                <a href="{% url 'edit_profile' %}" class="btn btn-warning">Complete Profile</a>
+                        
+                            {% endif %}
+                            {% endfor %}
+                           
+                            <div class="col-12 text-center">
+                                <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}

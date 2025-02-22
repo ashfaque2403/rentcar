@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<br>
+
+<section class="bg-img1 txt-center p-lr-15 p-tb-92 text-center">
+  <h2 class="ltext-105 cl0 txt-center">
+    Cars Available
+  </h2>
+</section>
+
+<style>
+  .table-container {
+    margin: 0 auto;
+    width: 90%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  th, td {
+    padding: 12px 15px;
+  }
+
+  th {
+    background-color: #00B98E;
+    color: #ffffff;
+  }
+
+  tr {
+    border-bottom: 1px solid #dddddd;
+  }
+
+  tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+
+  tr:last-of-type {
+    border-bottom: 2px solid #b0b435;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  img {
+    
+    object-fit: cover;
+    width: 60px;
+    height: 60px;
+  }
+
+  @media (max-width: 600px) {
+    table, tbody, tr, td, th {
+      display: block;
+      width: 100%;
+    }
+
+    table thead {
+      display: none;
+    }
+
+    table tr {
+      margin-bottom: 15px;
+    }
+
+    table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      float: left;
+    }
+  }
+</style>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Type</th>
+        <th>Kilometers Driven</th>
+        <th>Seats</th>
+        <th>Location</th>
+        <th>Seller</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for car in cars %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><img src="{{ car.car_image.url }}" alt="{{ car.car_name }}"></td>
+        <td>{{ car.car_name }}</td>
+        <td>${{ car.price }}</td>
+        <td>{{ car.car_type }}</td>
+        <td>{{ car.kilometers_drove }} km</td>
+        <td>{{ car.seats }}</td>
+        <td>{{ car.location }}</td>
+        <td>{{ car.user.username }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

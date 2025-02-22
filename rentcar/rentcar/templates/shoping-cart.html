@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<br><br><br><br>
+
+{% include "messages.html" %}
+
+<!-- Breadcrumb -->
+<div class="container">
+    <div class="bread-crumb p-l-25 p-r-15 p-t-30">
+        <a href="{% url "index" %}" class="stext-109 cl8 hov-cl1 trans-04">Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+        <span class="stext-109 cl4">Shopping Cart</span>
+    </div>
+</div>
+
+<br><br>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="wrap-table-shopping-cart">
+                <table class="table-shopping-cart text-center table-bordered" style="border-collapse: collapse; width: 100%; margin: auto;">
+                    <thead>
+                        <tr class="table_head bg-light">
+                            <th class="p-3">Image</th>
+                            <th class="p-3">Car Name</th>
+                            <th class="p-3">Rent</th>
+                            <th class="p-3">Days</th>
+                            <th class="p-3">Total</th>
+                            <th class="p-3">Remove</th>
+                            <th class="p-3">Book Now</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart_item in cart_items %}
+                        <tr data-product-id="{{ cart_item.car.id }}" data-price="{{ cart_item.car.price }}">
+                            <td class="p-4">
+                                <div class="how-itemcart1">
+                                    <img width="100" height="auto" src="{{ cart_item.car.car_image.url }}" alt="IMG" style="border: 1px solid #ddd; padding: 5px;">
+                                </div>
+                            </td>
+                            <td class="p-4">{{ cart_item.car.car_name }}</td>
+                            <td class="p-4">${{ cart_item.car.price }}</td>
+                            <td class="p-4">
+                                <div class="input-group">
+									<center>
+                                    <button class="btn btn-secondary btn-sm change-days" data-action="decrease" data-cartitem-id="{{ cart_item.id }}">-</button>
+									
+                                    <input style="border:none; width: 50px; " class="text-center w-50 rounded days-input" name="num-product1" value="{{ cart_item.days }}" readonly>
+								
+                                    <button class="btn btn-secondary btn-sm change-days" data-action="increase" data-cartitem-id="{{ cart_item.id }}">+</button>
+								</center>
+                                </div>
+                            </td>
+                            <td class="p-4 total-price">${{ cart_item.total_price }}</td>
+                            <td class="p-4">
+                                <a href="{% url 'remove' cart_item.id %}" class="text-dark">X</a>
+                            </td>
+                            <td class="p-4">
+                                <a href="{% url "checkout" %}" class="btn btn-primary">Book Now</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.change-days').click(function() {
+        var action = $(this).data('action');
+        var cartItemId = $(this).data('cartitem-id');
+        var daysInput = $(this).siblings('input.days-input');
+        var totalPriceElement = $(this).closest('tr').find('.total-price');
+        var currentDays = parseInt(daysInput.val());
+        var carPrice = parseFloat($(this).closest('tr').data('price'));  // Get car price from the row data
+
+        // Increment or Decrement the days
+        if (action === 'increase') {
+            currentDays++;
+        } else if (action === 'decrease' && currentDays > 1) {
+            currentDays--;
+        }
+
+        // Update the input value
+        daysInput.val(currentDays);
+
+        // Calculate new total price
+        var newTotalPrice = (carPrice * currentDays).toFixed(2);
+        totalPriceElement.text('$' + newTotalPrice); // Update displayed total price
+
+        // Send AJAX request to update the days in the database
+        $.ajax({
+            url: "{% url 'update_days' %}",  // URL for the update view
+            type: "POST",
+            data: {
+                'cart_item_id': cartItemId,
+                'days': currentDays,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Include CSRF token
+            },
+            success: function(response) {
+                // Optionally handle success
+                console.log(response);
+            },
+            error: function(response) {
+                // Handle errors
+                console.error(response);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}
